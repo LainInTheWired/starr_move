@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -9,8 +10,8 @@ import (
 	"github.com/rs/xid"
 )
 type Move struct{
-	x int
-	y int 
+	X int `json:"x"`
+	Y int `json:"y"`
 }
 
 var clients = make(map[*websocket.Conn]string) // 接続されるクライアント
@@ -57,6 +58,7 @@ func handleConnections(w http.ResponseWriter,r * http.Request){
 		var cmove Move
 
 		err := ws.ReadJSON(&cmove)
+		fmt.Println(cmove)
 		if err != nil {
 			log.Printf("error:%v",err)
 			delete(clients,ws)
